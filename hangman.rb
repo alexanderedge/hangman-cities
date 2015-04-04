@@ -22,17 +22,6 @@ class Game
   property :letters_used, String, :default => ""
   property :guesses_remaining, Integer, :default => 10
   property :state, Integer, :default => 0
-
-  def to_json(*a)
-    {
-      'game_id'             => self.game_id,
-      'display_word'        => self.display_word,
-      'letters_used'        => self.letters_used,
-      'guesses_remaining'   => self.guesses_remaining,
-      'state'               => self.state
-    }.to_json(*a)
-  end
-
 end
 
 # Finalize the DataMapper models.
@@ -49,7 +38,7 @@ get '/games' do
   content_type :json
   @games = Game.all(:order => :updated_at.desc)
   # generate how the string should be displayed on the client
-  @games.to_json
+  @games.to_json(:exclude => :word)
 end
 
 # CREATE: Route to create a new Game
@@ -65,7 +54,7 @@ post '/games/new' do
   @game.display_word = word.gsub(/[A-z]/, "_")
 
   if @game.save
-    @game.to_json
+    @game.to_json(:exclude => :word)
   else
     halt 500
   end
@@ -77,7 +66,7 @@ get '/games/:id' do
   @game = Game.get(params[:id].to_i)
 
   if @game
-    @game.to_json
+    @game.to_json(:exclude => :word)
   else
     halt 404
   end
@@ -175,7 +164,7 @@ post '/games/:id/guess' do
       end
 
       if @game.save
-        @game.to_json
+        @game.to_json(:exclude => :word)
       else
         halt 500
       end

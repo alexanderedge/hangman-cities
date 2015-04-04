@@ -3,6 +3,7 @@ gem 'sinatra'
 gem 'json'
 gem 'data_mapper'
 gem 'dm-timestamps'
+gem 'activesupport'
 
 # local development uses SQLite
 group :development do
