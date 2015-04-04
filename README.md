@@ -9,6 +9,7 @@ The classic hangman game with a geographical twist. This server component is des
 * Solo game; no login and no user accounts
 * Hangman is the only game that will be played
 * A-z (and space) are the only characters allowed in the game
+* Uppercase and lowercase are treated as equal
 
 ## Installation Instructions
 
@@ -20,6 +21,24 @@ Build and run the [iOS client](https://github.com/alexanderedge/hangman-cities-c
 4. Run the iOS client
 
 The local server uses SQLite and Heroku deployment uses Postgres for persistence.
+
+## API
+
+### POST: /games/new
+
+Creates a new game with a randomly selected word from the list. Returns the game data.
+
+### GET: /games
+
+Returns all existing games.
+
+### GET: /games/:id
+
+Returns a specific game.
+
+### POST: /games/:id/guess
+
+Guess a letter for a game. Requires a `letter` query parameter that must be one character in the set A-z. e.g. `POST /games/1/guess?letter=f`. Returns the updated game data.
 
 ## Acknowledgements
 
